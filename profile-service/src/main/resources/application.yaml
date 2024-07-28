@@ -13,7 +13,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri:
+          issuer-uri: http://localhost:8180/realms/devteria
 
 idp:
   url: http://localhost:8180
