@@ -9,6 +9,12 @@ spring:
     mongodb:
       uri: mongodb://root:root@localhost:27017/profile-service?authSource=admin
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+
 idp:
   url: http://localhost:8180
   client-id: devteria_app

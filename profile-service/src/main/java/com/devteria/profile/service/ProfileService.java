@@ -1,5 +1,11 @@
 package com.devteria.profile.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.devteria.profile.dto.identity.Credential;
 import com.devteria.profile.dto.identity.TokenExchangeParam;
 import com.devteria.profile.dto.identity.UserCreationParam;
@@ -9,17 +15,13 @@ import com.devteria.profile.exception.ErrorNormalizer;
 import com.devteria.profile.mapper.ProfileMapper;
 import com.devteria.profile.repository.IdentityClient;
 import com.devteria.profile.repository.ProfileRepository;
+
 import feign.FeignException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -39,12 +41,12 @@ public class ProfileService {
     @NonFinal
     String clientSecret;
 
-    public List<ProfileResponse> getAllProfiles(){
+    public List<ProfileResponse> getAllProfiles() {
         var profiles = profileRepository.findAll();
         return profiles.stream().map(profileMapper::toProfileResponse).toList();
     }
 
-    public ProfileResponse register(RegistrationRequest request){
+    public ProfileResponse register(RegistrationRequest request) {
         try {
             // Create account in KeyCloak
             // Exchange client Token
@@ -84,12 +86,12 @@ public class ProfileService {
             profile = profileRepository.save(profile);
 
             return profileMapper.toProfileResponse(profile);
-        } catch (FeignException exception){
+        } catch (FeignException exception) {
             throw errorNormalizer.handleKeyCloakException(exception);
         }
     }
 
-    private String extractUserId(ResponseEntity<?> response){
+    private String extractUserId(ResponseEntity<?> response) {
         String location = response.getHeaders().get("Location").getFirst();
         String[] splitedStr = location.split("/");
         return splitedStr[splitedStr.length - 1];

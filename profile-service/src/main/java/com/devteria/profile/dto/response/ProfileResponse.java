@@ -1,14 +1,15 @@
 package com.devteria.profile.dto.response;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +23,7 @@ public class ProfileResponse {
     String username;
     String firstName;
     String lastName;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     LocalDate dob;
 }
