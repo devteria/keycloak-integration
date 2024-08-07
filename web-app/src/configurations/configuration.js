@@ -8,7 +8,7 @@ export const API = {
 };
 
 export const KEYCLOACK_CONFIG = {
-  url: "",
-  realm: "",
-  clientId: "",
+  url: "http://localhost:8180",
+  realm: "devteria",
+  clientId: "devteria_webapp",
 };

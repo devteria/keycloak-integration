@@ -2,8 +2,11 @@ package com.devteria.profile.service;
 
 import java.util.List;
 
+import com.devteria.profile.exception.AppException;
+import com.devteria.profile.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.devteria.profile.dto.identity.Credential;
@@ -40,6 +43,16 @@ public class ProfileService {
     @Value("${idp.client-secret}")
     @NonFinal
     String clientSecret;
+
+    public ProfileResponse getMyProfile() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+
+        var profile = profileRepository.findByUserId(userId).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        return profileMapper.toProfileResponse(profile);
+    }
 
     public List<ProfileResponse> getAllProfiles() {
         var profiles = profileRepository.findAll();

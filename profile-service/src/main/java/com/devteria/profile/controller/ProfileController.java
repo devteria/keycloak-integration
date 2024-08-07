@@ -39,4 +39,11 @@ public class ProfileController {
                 .result(profileService.getAllProfiles())
                 .build();
     }
+
+    @GetMapping("/my-profile")
+    ApiResponse<ProfileResponse> getMyProfiles() {
+        return ApiResponse.<ProfileResponse>builder()
+                .result(profileService.getMyProfile())
+                .build();
+    }
 }
